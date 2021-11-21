@@ -5,7 +5,7 @@ const maxReps = [];
 const letters = [];
 const values = [];
 
-function isValid({minReps, maxReps, letter, value}){
+function isValidPart1({minReps, maxReps, letter, value}){
     const count = value.split('').reduce((previousValue, currentValue) => {
         if (currentValue === letter){
             return previousValue+1;
@@ -16,8 +16,21 @@ function isValid({minReps, maxReps, letter, value}){
     return (minReps <= count && count <= maxReps)
 }
 
+function isValidPart2({minReps, maxReps, letter, value}){
+    const isInFirst = value.charAt(minReps-1)===letter;
+    const isInSecond = value.charAt(maxReps-1)===letter;
+    return ((isInFirst && !isInSecond) || (!isInFirst && isInSecond));
+}
+
+const fakePasswords = [
+    {minReps: 1,maxReps:3,letter:"a",value:"abcde"},
+    {minReps: 1,maxReps:3,letter:"b",value:"cdefg"},
+    {minReps: 2,maxReps:9,letter:"c",value:"ccccccccc"},
+]
+
 //Generated thanks to some RegEx
-const passwords = [{minReps: 6,maxReps:10,letter:"p",value:"ctpppjmdpppppp"},
+const passwords = [
+    {minReps: 6,maxReps:10,letter:"p",value:"ctpppjmdpppppp"},
     {minReps: 17,maxReps:19,letter:"l",value:"llllllllllllllllllll"},
     {minReps: 14,maxReps:19,letter:"z",value:"zrzzzzzztzzzzwzzzzk"},
     {minReps: 1,maxReps:8,letter:"k",value:"qkkkkkkxkkkkkkkkk"},
@@ -1019,10 +1032,16 @@ const passwords = [{minReps: 6,maxReps:10,letter:"p",value:"ctpppjmdpppppp"},
     {minReps: 8,maxReps:11,letter:"t",value:"tttttttcttm"}
 ]
 
-let validsCount = 0;
+let validsP1Count = 0;
+let validsP2Count = 0
 
 for (const password of passwords.values()){
-    if (isValid(password)) validsCount++;
+    if (isValidPart1(password)) validsP1Count++;
 }
 
-console.log(`Valid passwords: ${validsCount}`);
+for (const password of passwords.values()) {
+    if (isValidPart2(password)) validsP2Count++;
+}
+
+console.log(`Valid Part 1 passwords: ${validsP1Count}`);
+console.log(`Valid Part 2 passwords: ${validsP2Count}`);
