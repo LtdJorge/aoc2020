@@ -9,11 +9,16 @@ int main() {
     for (auto i = 0; i < 200; i++){
         if (pairFound) break;
         for (auto j = 0; j < 200; j++){
-            if (i==j) break;
-            if ((input[i] + input[j]) == 2020){
-                pairFound = true;
-                solution = input[i] * input[j];
-                break;
+            if (i != j) {
+                for (int k = 0; k < 200; ++k) {
+                    if (k != j && k != i) {
+                        if ((input[i] + input[j] + input[k]) == 2020){
+                            pairFound = true;
+                            solution = input[i] * input[j] * input[k];
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
